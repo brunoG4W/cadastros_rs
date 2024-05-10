@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('tipo')->nullable();// adulto criança
+            $table->string('sexo')->nullable();
 
             $table->string('nome')->nullable();
             $table->string('cpf')->nullable();
@@ -38,6 +39,7 @@ return new class extends Migration
             $table->string('possui_abrigo_familiares')->nullable();   
             $table->string('possui_acesso_agua')->nullable();   
             $table->string('possui_filhos')->nullable();   
+            $table->string('nome_filhos')->nullable();
             $table->string('possui_familiar_desaparecido')->nullable();   
             $table->string('possui_animal_desaparecido')->nullable();   
 
@@ -51,6 +53,8 @@ return new class extends Migration
             $table->text('necessidades')->nullable();   
 
             $table->integer('cadastrado_por')->nullable();   
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

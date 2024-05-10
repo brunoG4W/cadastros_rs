@@ -7,12 +7,15 @@ use App\Filament\Resources\CadastroResource\RelationManagers;
 use App\Models\Cadastro;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use PhpParser\Node\Stmt\Label;
+
+use Filament\Resources\Resource;
+
+
 
 class CadastroResource extends Resource
 {
@@ -25,14 +28,14 @@ class CadastroResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\Select::make('type')
+                Forms\Components\Select::make('tipo')
                     ->label('Idade')
                     ->options([
                         'adulto' => 'Adulto',
                         'crianca' => 'Criança',                    
                     ]),
 
-                Forms\Components\Select::make('type')
+                Forms\Components\Select::make('sexo')
                     ->label('Sexo')
                     ->options([
                         'masculino' => 'Masculino',
@@ -81,11 +84,6 @@ class CadastroResource extends Resource
                     ])
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('pais')
-                    ->label('País')  
-                    ->autocomplete('Brasil')
-                    ->maxLength(255),
-
                 Forms\Components\Select::make('escolaridade')
                     ->label('Escolaridade')       
                     ->options([
@@ -107,18 +105,16 @@ class CadastroResource extends Resource
 
 
                 // caso crinaças
-                Forms\Components\TextInput::make('parentes')
-                    ->label('Nome Pais')
+                Forms\Components\TextInput::make('pais')
+                    ->label('Nome dos pais')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('parentes')
-                    ->label('Nome Parentes Contato')
+                    ->label('Nome parentes contato')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('professores')
-                    ->label('Nome Professores Contato')
+                    ->label('Nome professores contato')
                     ->maxLength(255),
                 // caso crinaças
-
-
 
                 Forms\Components\Radio::make('possui_abrigo_familiares')
                     ->label('Possui Abrigo com familiares?')
@@ -205,6 +201,7 @@ class CadastroResource extends Resource
             ]);
     }
 
+
     public static function table(Table $table): Table
     {
         return $table
@@ -255,28 +252,13 @@ class CadastroResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('medicamentos')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('diagnosticos_recentes')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('transtornos_psiquiatricos')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('trauma')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('ferimentos')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('cadastrado_por')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                // Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
